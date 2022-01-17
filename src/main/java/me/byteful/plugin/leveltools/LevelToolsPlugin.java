@@ -2,6 +2,7 @@ package me.byteful.plugin.leveltools;
 
 import co.aikar.commands.BukkitCommandManager;
 import co.aikar.commands.PaperCommandManager;
+import com.tchristofferson.configupdater.ConfigUpdater;
 import me.byteful.plugin.leveltools.api.AnvilCombineMode;
 import me.byteful.plugin.leveltools.listeners.AnvilListener;
 import me.byteful.plugin.leveltools.listeners.BlockEventListener;
@@ -11,6 +12,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import redempt.redlib.blockdata.BlockDataManager;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -68,8 +70,7 @@ public final class LevelToolsPlugin extends JavaPlugin {
     blockDataManager.setAutoSave(true);
     getLogger().info("Loaded BlockDataManager...");
 
-    saveDefaultConfig();
-    getConfig().options().copyDefaults(true).copyHeader(true);
+    setupConfiguration();
     setAnvilCombineMode();
     getLogger().info("Loaded configuration...");
 
@@ -95,6 +96,17 @@ public final class LevelToolsPlugin extends JavaPlugin {
     instance = null;
 
     getLogger().info("Successfully stopped " + getDescription().getFullName() + ".");
+  }
+
+  void setupConfiguration() {
+    saveDefaultConfig();
+    final File configFile = new File(getDataFolder(), "config.yml");
+    try {
+      ConfigUpdater.update(this, "config.yml", configFile);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    reloadConfig();
   }
 
   private void registerListeners() {
