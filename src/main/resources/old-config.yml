@@ -15,7 +15,7 @@ messages:
   no_permission: "&cYou do not have permission to execute this command!"
   successful_reload: "&aSuccessfully reloaded LevelTools!"
   successfully_executed_action: "&aSuccessfully executed action for item in hand."
-  item_not_supported: "&cThe item in hand is not supported by LevelTools! To add support, please configure the item to be included in a profile."
+  item_not_tool: "&cThe item in hand is not supported by LevelTools!"
 
 # What action should be done when combining items in an anvil?
 # Modes: "HIGHER_OF_BOTH" (Takes level and xp of higher level item), "LOWER_OF_BOTH" (Takes level and xp of lower level item), OR "ADD_BOTH" (Adds the level and XP of both items)
@@ -35,6 +35,11 @@ level_xp_increase:
 # May cause lag on a large server. Recommended to keep this true.
 # If this is set to false, all blocks placed beforehand will be counted towards XP.
 playerPlacedBlocks: true
+
+# Sends the progress bar to the action bar of a player when they gain XP on the tool in their hand.
+actionBar:
+  enabled: true
+  display: "{progress_bar} &e{xp}&6/&e{max_xp}"
 
 # Configuration for the sound played during a level up.
 level_up_sound:
@@ -87,92 +92,78 @@ blockBlacklist:
 entityBlacklist:
   - "PLAYER"
 
+# Configuration for tool rewards given at level ups.
+# Handlers:
+# - "command" : Runs the command provided as the console. (Ex: "command say test")
+# - "player-command" : Runs the command provided as the player. ("Ex: player-command say test")
+# - "enchant" : Adds an enchantment to the tool. Overrides existing enchantments with the new level provided. (Ex: "enchant efficiency 1")
+# - "enchant2" : Does the same thing as "enchant" but doesn't override existing enchantments. (Ex: "enchant2 efficiency 1")
+# - "attribute" : Modifies an attribute on the tool. (Ex: "attribute generic.attack_speed 10") OR (Ex: "attribute GENERIC_ATTACK_SPEED 10")
+tool_rewards:
+  1:
+    - "enchant2 efficiency 1"
+
+# Configuration for sword rewards given at level ups.
+# Handlers:
+# - "command" : Runs the command provided as the console. (Ex: "command say test")
+# - "player-command" : Runs the command provided as the player. ("Ex: player-command say test")
+# - "enchant" : Adds an enchantment to the tool. Overrides existing enchantments with the new level provided. (Ex: "enchant efficiency 1")
+# - "enchant2" : Does the same thing as "enchant" but doesn't override existing enchantments. (Ex: "enchant2 efficiency 1")
+# - "attribute" : Modifies an attribute on the tool. (Ex: "attribute generic.attack_speed 10") OR (Ex: "attribute GENERIC_ATTACK_SPEED 10")
+sword_rewards:
+  1:
+    - "enchant2 sharpness 1"
+
+# Configuration for bow and crossbow rewards given at level ups.
+# Handlers:
+# - "command" : Runs the command provided as the console. (Ex: "command say test")
+# - "player-command" : Runs the command provided as the player. ("Ex: player-command say test")
+# - "enchant" : Adds an enchantment to the tool. Overrides existing enchantments with the new level provided. (Ex: "enchant efficiency 1")
+# - "enchant2" : Does the same thing as "enchant" but doesn't override existing enchantments. (Ex: "enchant2 efficiency 1")
+# - "attribute" : Modifies an attribute on the tool. (Ex: "attribute generic.attack_speed 10") OR (Ex: "attribute GENERIC_ATTACK_SPEED 10")
+bow_rewards:
+  1:
+    - "enchant2 power 1"
+
+# Configuration for tool lore display.
+# To create a custom display for a specific tool item type, list that type as a key and set the lore as shown in the default lore.
+# Placeholders:
+# - {level} : The tool's level.
+# - {xp} : The tool's xp.
+# - {max_xp} : The tool's max XP needed to reach the next level.
+# - {progress_bar} : The progress bar text built with the configuration under 'progress_bar'.
+display:
+  default:
+    - ""
+    - "&eLevel: &6{level}"
+    - ""
+    - "{progress_bar} &e{xp}&6/&e{max_xp}"
+
+# Set to true if leveled items should show attributes. Recommended to keep this true to prevent "lore spam".
+hide_attributes: true
+
 # Configuration for the progress bar.
 progress_bar:
   # The total amount of bars in the progress bar.
   total_bars: 50
+
   # The symbol used for the bar.
   bar_symbol: '|'
+
   # The symbol used to prefix the bar symbols.
   prefix_symbol: '['
+
   # The symbol used to suffix the bar symbols.
   suffix_symbol: ']'
+
   # The color for the prefix symbol.
   prefix_color: '8' # Do not include the '&'
+
   # The color for the suffix symbol.
   suffix_color: '8' # Do not include the '&'
+
   # The color for the achieved/completed bars.
   completed_color: 'e' # Do not include the '&'
+
   # The color for the remaining/placeholder bars.
   placeholder_color: '7' # Do not include the '&'
-
-# Configuration for items to be handled by LevelTools.
-item_profiles:
-  # Any name can be used here. This name/identifier is for your own use.
-  Pickaxes:
-    # List of Bukkit materials for this item profile to apply to.
-    types:
-      - "DIAMOND_PICKAXE"
-      - "GOLDEN_PICKAXE"
-      - "IRON_PICKAXE"
-      - "STONE_PICKAXE"
-      - "NETHERITE_PICKAXE"
-      - "WOODEN_PICKAXE"
-    # The reward profile to apply to this item profile.
-    reward_profile: "Pickaxes"
-    # The display profile to apply to this item profile.
-    display_profile: "Default"
-    # The trigger for this profile to gain XP on its items.
-    # Handlers:
-    # - "BLOCK_BREAK" : Trigger fired when a block is broken with any of the items above.
-    # - "ENTITY_KILL" : Trigger fired when an entity is killed with any of the items above.
-    # - "RIGHT_CLICK_BLOCK" : Trigger fired when any item above is right-clicked on a block.
-    # - "LEFT_CLICK_BLOCK" : Trigger fired when any item above is left-clicked on a block.
-    xp_trigger: "BLOCK_BREAK"
-    # The max level that items in this profile can achieve.
-    max_level: 500
-
-# Configuration for reward profiles. These profiles can easily be added to specific items to improve the ease of configuration.
-reward_profiles:
-  # Any name can be used here. This name/identifier will be used to add this profile to an item.
-  # Handlers:
-  # - "command" : Runs the command provided as the console. (Ex: "command say test") (Placeholders: {player} - The player who performed the level up.)
-  # - "player-command" : Runs the command provided as the player. ("Ex: player-command say test") (Placeholders: {player} - The player who performed the level up.)
-  # - "enchant" : Adds an enchantment to the tool. Overrides existing enchantments with the new level provided. (Ex: "enchant efficiency 1")
-  # - "enchant2" : Does the same thing as "enchant" but doesn't override existing enchantments. (Ex: "enchant2 efficiency 1")
-  # - "attribute" : Modifies an attribute on the tool. (Ex: "attribute generic.attack_speed 10") OR (Ex: "attribute GENERIC_ATTACK_SPEED 10")
-  Pickaxes:
-    1:
-      - "enchant2 efficiency 1"
-      - "command tell {player} &aCongratulations, {player}! You have reached level 1 on your item."
-    2:
-      - "enchant2 efficiency 2"
-      - "command tell {player} &aCongratulations, {player}! You have reached level 2 on your item."
-
-# Configuration for display profiles. These profiles can be added to items to modify their display text.
-display_profiles:
-  # Any name can be used here. This name/identifier will be used to add this profile to an item.
-  # Placeholders:
-  # - {level} : The item's level.
-  # - {xp} : The item's xp.
-  # - {max_xp} : The item's max XP needed to reach the next level.
-  # - {progress_bar} : The progress bar text built with the configuration under 'progress_bar'.
-  Default:
-    # Configuration for the item's display name.
-    item_name:
-      enabled: false # Does LevelTools override the item's name?
-      text: "Level: {level}"
-    # Configuration for the actionbar text shown to the player.
-    actionbar:
-      enabled: true # Does LevelTools send actionbar text to the player when they trigger an XP event?
-      text: "{progress_bar} &8[&e{xp}&6/&e{max_xp}&8]"
-    # Configuration for the item's lore.
-    item_lore:
-      enabled: true # Does LevelTools override the item's lore?
-      text:
-        - ""
-        - "&eLevel: &6{level}"
-        - ""
-        - "{progress_bar} &e{xp}&6/&e{max_xp}"
-    # Set to true if item attributes should not be shown. Recommended to keep this true to prevent 'lore spam'.
-    hide_attributes: true
