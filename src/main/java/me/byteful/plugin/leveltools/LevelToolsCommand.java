@@ -44,7 +44,7 @@ public class LevelToolsCommand extends BaseCommand {
 
     final ItemStack item = player.getItemInHand();
 
-    if (LevelToolsUtil.isSupportedTool(item.getType())) {
+    if (LevelToolsUtil.isSupportedItem(item.getType())) {
       final LevelToolsItem tool = LevelToolsUtil.createLevelToolsItem(item);
       tool.setXp(xp);
       player.setItemInHand(tool.getItemStack());
@@ -68,7 +68,7 @@ public class LevelToolsCommand extends BaseCommand {
 
     final ItemStack item = player.getItemInHand();
 
-    if (LevelToolsUtil.isSupportedTool(item.getType())) {
+    if (LevelToolsUtil.isSupportedItem(item.getType())) {
       final LevelToolsItem tool = LevelToolsUtil.createLevelToolsItem(item);
       tool.setLevel(level);
       player.setItemInHand(tool.getItemStack());
@@ -92,7 +92,7 @@ public class LevelToolsCommand extends BaseCommand {
 
     final ItemStack item = player.getItemInHand();
 
-    if (LevelToolsUtil.isSupportedTool(item.getType())) {
+    if (LevelToolsUtil.isSupportedItem(item.getType())) {
       final LevelToolsItem tool = LevelToolsUtil.createLevelToolsItem(item);
       tool.setLevel(tool.getLevel() + 1);
       player.setItemInHand(tool.getItemStack());

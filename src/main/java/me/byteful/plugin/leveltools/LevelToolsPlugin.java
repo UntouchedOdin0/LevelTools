@@ -100,9 +100,9 @@ public final class LevelToolsPlugin extends JavaPlugin {
 
   void setupConfiguration() {
     saveDefaultConfig();
-    final File configFile = new File(getDataFolder(), "config.yml");
+    final File configFile = new File(getDataFolder(), "old-config.yml");
     try {
-      ConfigUpdater.update(this, "config.yml", configFile);
+      ConfigUpdater.update(this, "old-config.yml", configFile);
     } catch (IOException e) {
       e.printStackTrace();
     }

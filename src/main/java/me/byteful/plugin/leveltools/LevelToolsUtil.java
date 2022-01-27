@@ -1,6 +1,5 @@
 package me.byteful.plugin.leveltools;
 
-import com.cryptomorin.xseries.XMaterial;
 import com.google.common.base.Strings;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.byteful.plugin.leveltools.api.item.LevelToolsItem;
@@ -105,33 +104,8 @@ public final class LevelToolsUtil {
         1);
   }
 
-  public static boolean isPickaxe(Material material) {
-    return material.name().endsWith("_PICKAXE");
-  }
-
-  public static boolean isAxe(Material material) {
-    return material.name().endsWith("_AXE");
-  }
-
-  public static boolean isShovel(Material material) {
-    return material.name().endsWith("_SHOVEL");
-  }
-
-  public static boolean isSword(Material material) {
-    return material.name().endsWith("_SWORD");
-  }
-
-  public static boolean isProjectileShooter(Material material) {
-    return material == XMaterial.BOW.parseMaterial()
-        || (RedLib.MID_VERSION >= 14 && material == XMaterial.CROSSBOW.parseMaterial());
-  }
-
-  public static boolean isSupportedTool(Material material) {
-    return isPickaxe(material)
-        || isAxe(material)
-        || isShovel(material)
-        || isSword(material)
-        || isProjectileShooter(material);
+  public static boolean isSupportedItem(Material material) {
+    return false;
   }
 
   public static ItemStack getHand(Player player) {
