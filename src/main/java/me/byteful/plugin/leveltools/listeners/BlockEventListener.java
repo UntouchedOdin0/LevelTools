@@ -38,15 +38,15 @@ public class BlockEventListener extends LevelToolsXPListener {
       return;
     }
 
-    if ((LevelToolsUtil.isAxe(hand.getType())
-            || LevelToolsUtil.isPickaxe(hand.getType())
-            || LevelToolsUtil.isShovel(hand.getType()))
-        && !block.getDrops(hand).isEmpty()) {
-      handle(
-          LevelToolsUtil.createLevelToolsItem(hand),
-          player,
-          LevelToolsUtil.getBlockModifier(block.getType()));
-    }
+    //    if ((LevelToolsUtil.isAxe(hand.getType())
+    //            || LevelToolsUtil.isPickaxe(hand.getType())
+    //            || LevelToolsUtil.isShovel(hand.getType()))
+    //        && !block.getDrops(hand).isEmpty()) {
+    //      handle(
+    //          LevelToolsUtil.createLevelToolsItem(hand),
+    //          player,
+    //          LevelToolsUtil.getBlockModifier(block.getType()));
+    //    }
   }
 
   @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

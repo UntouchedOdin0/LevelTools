@@ -66,8 +66,8 @@ public final class LevelToolsPlugin extends JavaPlugin {
       }
     }
 
-    blockDataManager = new BlockDataManager(blocksFile);
-    blockDataManager.setAutoSave(true);
+    blockDataManager = BlockDataManager.createSQLite(this, blocksFile, true, true);
+    blockDataManager.migrate();
     getLogger().info("Loaded BlockDataManager...");
 
     setupConfiguration();
@@ -127,5 +127,9 @@ public final class LevelToolsPlugin extends JavaPlugin {
 
   public AnvilCombineMode getAnvilCombineMode() {
     return anvilCombineMode;
+  }
+
+  public BukkitCommandManager getCommandManager() {
+    return commandManager;
   }
 }
