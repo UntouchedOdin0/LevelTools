@@ -11,6 +11,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import redempt.redlib.blockdata.BlockDataManager;
+import redempt.redlib.commandmanager.Messages;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +25,7 @@ public final class LevelToolsPlugin extends JavaPlugin {
 
   private BlockDataManager blockDataManager;
   private BukkitCommandManager commandManager;
-  private AnvilCombineMode anvilCombineMode;
+  private Messages messages;
 
   public static LevelToolsPlugin getInstance() {
     return instance;
@@ -71,7 +72,6 @@ public final class LevelToolsPlugin extends JavaPlugin {
     getLogger().info("Loaded BlockDataManager...");
 
     setupConfiguration();
-    setAnvilCombineMode();
     getLogger().info("Loaded configuration...");
 
     registerListeners();
@@ -100,13 +100,18 @@ public final class LevelToolsPlugin extends JavaPlugin {
 
   void setupConfiguration() {
     saveDefaultConfig();
-    final File configFile = new File(getDataFolder(), "old-config.yml");
+    final File configFile = new File(getDataFolder(), "config.yml");
     try {
-      ConfigUpdater.update(this, "old-config.yml", configFile);
+      ConfigUpdater.update(this, "config.yml", configFile);
     } catch (IOException e) {
       e.printStackTrace();
     }
     reloadConfig();
+
+    if (!Files.exists(getDataFolder().toPath().resolve("messages.txt"))) {
+      saveResource("messages.txt", false);
+    }
+    messages = Messages.load(this);
   }
 
   private void registerListeners() {
@@ -116,20 +121,20 @@ public final class LevelToolsPlugin extends JavaPlugin {
     pm.registerEvents(new AnvilListener(), this);
   }
 
-  public void setAnvilCombineMode() {
-    anvilCombineMode =
-        AnvilCombineMode.fromName(Objects.requireNonNull(getConfig().getString("anvil_combine")));
-  }
-
   public BlockDataManager getBlockDataManager() {
     return blockDataManager;
   }
 
   public AnvilCombineMode getAnvilCombineMode() {
-    return anvilCombineMode;
+    return AnvilCombineMode.fromName(
+        Objects.requireNonNull(getConfig().getString("anvil_combine")));
   }
 
   public BukkitCommandManager getCommandManager() {
     return commandManager;
+  }
+
+  public Messages getMessages() {
+    return messages;
   }
 }

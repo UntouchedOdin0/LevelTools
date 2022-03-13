@@ -10,13 +10,6 @@
 # - https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
 # - https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html
 
-# Configuration for messages.
-messages:
-  no_permission: "&cYou do not have permission to execute this command!"
-  successful_reload: "&aSuccessfully reloaded LevelTools!"
-  successfully_executed_action: "&aSuccessfully executed action for item in hand."
-  item_not_supported: "&cThe item in hand is not supported by LevelTools! To add support, please configure the item to be included in a profile."
-
 # What action should be done when combining items in an anvil?
 # Modes: "HIGHER_OF_BOTH" (Takes level and xp of higher level item), "LOWER_OF_BOTH" (Takes level and xp of lower level item), OR "ADD_BOTH" (Adds the level and XP of both items)
 anvil_combine: "ADD_BOTH"
@@ -66,7 +59,7 @@ combat_xp_modifiers:
     min: 5.0
     max: 7.5
 
-# A blacklist that prevents the blocks listed from giving XP on break.
+# A blacklist that prevents the blocks listed from giving XP on interaction (break, right/left click).
 blockBlacklist:
   - "FIRE"
   - "SOUL_FIRE"
@@ -128,6 +121,9 @@ item_profiles:
     # - "ENTITY_KILL" : Trigger fired when an entity is killed with any of the items above.
     # - "RIGHT_CLICK_BLOCK" : Trigger fired when any item above is right-clicked on a block.
     # - "LEFT_CLICK_BLOCK" : Trigger fired when any item above is left-clicked on a block.
+    # - "TILL" : Trigger fired when a hoe type item above is clicked on dirt/grass to turn it into farmland.
+    # - "PATH" : Trigger fired when a shovel type item above is clicked on grass to turn it into grass path.
+    # - "STRIP" : Trigger fired when an axe type item above is clicked on log to strip the 'bark'.
     xp_trigger: "BLOCK_BREAK"
     # The max level that items in this profile can achieve.
     max_level: 500
@@ -144,10 +140,10 @@ reward_profiles:
   Pickaxes:
     1:
       - "enchant2 efficiency 1"
-      - "command tell {player} &aCongratulations, {player}! You have reached level 1 on your item."
+      - "command tell {player} Congratulations, {player}! You have reached level 1 on your item."
     2:
       - "enchant2 efficiency 2"
-      - "command tell {player} &aCongratulations, {player}! You have reached level 2 on your item."
+      - "command tell {player} Congratulations, {player}! You have reached level 2 on your item."
 
 # Configuration for display profiles. These profiles can be added to items to modify their display text.
 display_profiles:

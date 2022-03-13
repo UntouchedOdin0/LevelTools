@@ -8,8 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Objects;
-
 @CommandAlias("leveltools")
 public class LevelToolsCommand extends BaseCommand {
   @Dependency private LevelToolsPlugin plugin;
@@ -29,10 +27,7 @@ public class LevelToolsCommand extends BaseCommand {
     }
 
     plugin.setupConfiguration();
-    plugin.setAnvilCombineMode();
-    sender.sendMessage(
-        Text.colorize(
-            Objects.requireNonNull(plugin.getConfig().getString("messages.successful_reload"))));
+    sender.sendMessage(plugin.getMessages().get("successful_reload"));
   }
 
   @Subcommand("xp")
@@ -48,14 +43,9 @@ public class LevelToolsCommand extends BaseCommand {
       final LevelToolsItem tool = LevelToolsUtil.createLevelToolsItem(item);
       tool.setXp(xp);
       player.setItemInHand(tool.getItemStack());
-      player.sendMessage(
-          Text.colorize(
-              Objects.requireNonNull(
-                  plugin.getConfig().getString("messages.successfully_executed_action"))));
+      player.sendMessage(plugin.getMessages().get("successfully_executed_action"));
     } else {
-      player.sendMessage(
-          Text.colorize(
-              Objects.requireNonNull(plugin.getConfig().getString("messages.item_not_tool"))));
+      player.sendMessage(plugin.getMessages().get("item_not_tool"));
     }
   }
 
@@ -72,14 +62,9 @@ public class LevelToolsCommand extends BaseCommand {
       final LevelToolsItem tool = LevelToolsUtil.createLevelToolsItem(item);
       tool.setLevel(level);
       player.setItemInHand(tool.getItemStack());
-      player.sendMessage(
-          Text.colorize(
-              Objects.requireNonNull(
-                  plugin.getConfig().getString("messages.successfully_executed_action"))));
+      player.sendMessage(plugin.getMessages().get("successfully_executed_action"));
     } else {
-      player.sendMessage(
-          Text.colorize(
-              Objects.requireNonNull(plugin.getConfig().getString("messages.item_not_tool"))));
+      player.sendMessage(plugin.getMessages().get("item_not_tool"));
     }
   }
 
@@ -96,22 +81,15 @@ public class LevelToolsCommand extends BaseCommand {
       final LevelToolsItem tool = LevelToolsUtil.createLevelToolsItem(item);
       tool.setLevel(tool.getLevel() + 1);
       player.setItemInHand(tool.getItemStack());
-      player.sendMessage(
-          Text.colorize(
-              Objects.requireNonNull(
-                  plugin.getConfig().getString("messages.successfully_executed_action"))));
+      player.sendMessage(plugin.getMessages().get("successfully_executed_action"));
     } else {
-      player.sendMessage(
-          Text.colorize(
-              Objects.requireNonNull(plugin.getConfig().getString("messages.item_not_tool"))));
+      player.sendMessage(plugin.getMessages().get("item_not_tool"));
     }
   }
 
   private boolean checkPerm(CommandSender sender) {
     if (!sender.hasPermission("leveltools.admin")) {
-      sender.sendMessage(
-          Text.colorize(
-              Objects.requireNonNull(plugin.getConfig().getString("messages.no_permission"))));
+      sender.sendMessage(plugin.getMessages().get("no_permission"));
 
       return false;
     }
